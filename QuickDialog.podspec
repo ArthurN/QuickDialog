@@ -7,7 +7,6 @@ Pod::Spec.new do |s|
   s.homepage = 'http://escoz.com/quickdialog'
   s.author   = { 'Eduardo Scoz' => 'contact@escoz.com' }
   s.source   = { :git => 'https://github.com/escoz/QuickDialog.git', :tag => "#{s.version}" }
-
   s.description  = 'QuickDialog allows you to create HIG-compliant iOS forms for your apps without ' \
                    'having to directly deal with UITableViews, delegates and data sources. Fast ' \
                    'and efficient, you can create forms with multiple text fields, or with ' \
