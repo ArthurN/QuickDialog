@@ -38,7 +38,6 @@
 #import "QMapElement.h"
 #import "QRadioElement.h"
 #import "QRadioItemElement.h"
-#import "QPickerElement.h"
 #import "QSelectItemElement.h"
 #import "QTextElement.h"
 #import "QWebElement.h"

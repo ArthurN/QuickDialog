@@ -40,10 +40,15 @@ UIDatePicker *QDATEENTRY_GLOBAL_PICKER;
 
 - (void)textFieldDidEndEditing:(UITextField *)textField {
     [super textFieldDidEndEditing:textField];
+    
+    // AJN: If the user hits "Done" before selecting a date, the dateChanged callback never fires and thus
+    // the element's dateValue never changes. Calling dateChanged here will fix that.
+    [self dateChanged:_pickerView];
+    [_quickformTableView reloadCellForElements:_entryElement, nil];
+    
     self.selected = NO;
     [_pickerView removeTarget:self action:@selector(dateChanged:) forControlEvents:UIControlEventValueChanged];
     _pickerView = nil;
-
 }
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField {

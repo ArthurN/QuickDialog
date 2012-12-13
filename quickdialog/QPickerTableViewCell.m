@@ -43,7 +43,16 @@ NSString * const QPickerTableViewCellIdentifier = @"QPickerTableViewCell";
 - (void)textFieldDidEndEditing:(UITextField *)textField
 {
     [super textFieldDidEndEditing:textField];
-    self.selected = NO;  
+    self.selected = NO;
+    
+    // AJN: Same fix as for DateTimePicker where if user hits "Done" before touching the picker wheel,
+    // the value doesn't necessarily get updated.
+    self.pickerElement.value = [self getPickerViewValue];
+    [self prepareForElement:_entryElement inTableView:_quickformTableView];    
+    if (self.pickerElement.onValueChanged != nil) {
+        self.pickerElement.onValueChanged();
+    }
+    [_quickformTableView reloadCellForElements:_entryElement, nil];    
 }
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField
@@ -68,7 +77,8 @@ NSString * const QPickerTableViewCellIdentifier = @"QPickerTableViewCell";
     _pickerView.showsSelectionIndicator = YES;
     _pickerView.dataSource = self;
     _pickerView.delegate = self;
-    
+    _pickerView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+
     *pickerView = _pickerView;
 }
 
@@ -131,7 +141,7 @@ NSString * const QPickerTableViewCellIdentifier = @"QPickerTableViewCell";
         }
     }
 
-    NSLog(@"AA%@", [self.pickerElement.valueParser objectFromComponentsValues:componentsValues]);
+    //NSLog(@"AA%@", [self.pickerElement.valueParser objectFromComponentsValues:componentsValues]);
     return [self.pickerElement.valueParser objectFromComponentsValues:componentsValues];
 }
 
@@ -143,7 +153,8 @@ NSString * const QPickerTableViewCellIdentifier = @"QPickerTableViewCell";
     {
         id componentValue = [componentsValues objectAtIndex:(NSUInteger) componentIndex];
         NSInteger rowIndex = [[self.pickerElement.items objectAtIndex:componentIndex] indexOfObject:componentValue];
-        [_pickerView selectRow:rowIndex inComponent:componentIndex animated:YES];
+        [_pickerView selectRow:rowIndex inComponent:componentIndex animated:NO];
+        [_pickerView setNeedsLayout];
     }
 }
 
