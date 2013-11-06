@@ -52,7 +52,7 @@ NSString * const QPickerTableViewCellIdentifier = @"QPickerTableViewCell";
     self.pickerElement.value = [self getPickerViewValue];
     [self prepareForElement:_entryElement inTableView:_quickformTableView];    
     if (self.pickerElement.onValueChanged != nil) {
-        self.pickerElement.onValueChanged();
+        self.pickerElement.onValueChanged(self);
     }
     [_quickformTableView reloadCellForElements:_entryElement, nil];    
 }
